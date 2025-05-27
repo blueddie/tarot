@@ -49,7 +49,7 @@ hy2/
 
 ```bash
 git clone <repository-url>
-cd hy2
+cd tarot
 ```
 
 ### 2. Python 버전 확인
