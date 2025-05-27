@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>타로 카드 선택</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <style>
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            width: 120px;
+            height: 200px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .selected-slots {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            border-top: 2px solid #9b59b6;
+            height: 250px;
+        }
+
+        .slot {
+            width: 120px;
+            height: 200px;
+            border: 2px dashed #9b59b6;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: rgba(155, 89, 182, 0.1);
+        }
+
+        .slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .rotate-btn {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #9b59b6;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .slot.filled .rotate-btn {
+            display: block;
+        }
+
+        .result-btn {
+            position: fixed;
+            bottom: 280px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #9b59b6;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+            z-index: 1000;
+        }
+
+        .result-btn:hover {
+            background-color: #8e44ad;
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .container {
+            padding-bottom: 300px;
+        }
+
+        /* 로딩 오버레이 스타일 추가 */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #333;
+            border-top: 4px solid #9b59b6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .loading-subtext {
+            color: #ccc;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .tarot-cards-animation {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mini-card {
+            width: 30px;
+            height: 50px;
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            border-radius: 5px;
+            animation: cardFlip 2s ease-in-out infinite;
+        }
+
+        .mini-card:nth-child(1) { animation-delay: 0s; }
+        .mini-card:nth-child(2) { animation-delay: 0.3s; }
+        .mini-card:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes cardFlip {
+            0%, 100% { transform: rotateY(0deg); }
+            50% { transform: rotateY(180deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 로딩 오버레이 추가 -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="tarot-cards-animation">
+            <div class="mini-card"></div>
+            <div class="mini-card"></div>
+            <div class="mini-card"></div>
+        </div>
+        <div class="loading-spinner"></div>
+        <div class="loading-text">타로 카드를 해석하고 있습니다...</div>
+        <div class="loading-subtext">잠시만 기다려주세요. 신비로운 메시지를 전달받는 중입니다.</div>
+    </div>
+
+    <div class="container">
+        <h1>타로 카드 선택</h1>
+        <h2 style="color: #9b59b6; margin-bottom: 2rem;">{{ question }}</h2>
+        <p>3장의 카드를 선택하여 아래 슬롯에 배치해주세요</p>
+        
+        <div class="cards-container">
+            {% for card in cards %}
+            <div class="card" data-card="{{ card }}">
+                <img src="{{ url_for('static', path='/card_images/back_card.png') }}" alt="타로 카드">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="selected-slots">
+        <div class="slot" data-slot="1">
+            <button class="rotate-btn">상/하 변경</button>
+        </div>
+        <div class="slot" data-slot="2">
+            <button class="rotate-btn">상/하 변경</button>
+        </div>
+        <div class="slot" data-slot="3">
+            <button class="rotate-btn">상/하 변경</button>
+        </div>
+    </div>
+
+    <button class="result-btn">카드 확인하기</button>
+
+    <script>
+        const cards = document.querySelectorAll('.card');
+        const slots = document.querySelectorAll('.slot');
+        const resultBtn = document.querySelector('.result-btn');
+        let selectedCards = 0;
+        let cardsRevealed = false;
+
+        cards.forEach(card => {
+            card.addEventListener('click', function() {
+                if (selectedCards >= 3 || this.classList.contains('selected') || cardsRevealed) return;
+                
+                const emptySlot = document.querySelector('.slot:not(.filled)');
+                if (emptySlot) {
+                    const cardName = this.dataset.card;
+                    const img = document.createElement('img');
+                    img.src = "{{ url_for('static', path='/card_images/back_card.png') }}";
+                    img.dataset.realCard = cardName;
+                    img.alt = cardName;
+                    
+                    emptySlot.innerHTML = '';
+                    emptySlot.appendChild(img);
+                    emptySlot.classList.add('filled');
+                    const rotateBtn = document.createElement('button');
+                    rotateBtn.className = 'rotate-btn';
+                    rotateBtn.textContent = '상/하 변경';
+                    emptySlot.appendChild(rotateBtn);
+                    
+                    this.classList.add('selected');
+                    this.style.opacity = '0.5';
+                    selectedCards++;
+
+                    if (selectedCards === 3) {
+                        resultBtn.style.display = 'inline-block';
+                    }
+                }
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('rotate-btn') && !cardsRevealed) {
+                const slot = e.target.parentElement;
+                const img = slot.querySelector('img');
+                if (img) {
+                    const currentRotation = (img.style.transform.match(/rotate\((.*?)deg\)/) || ['', '0'])[1];
+                    img.style.transform = `rotate(${currentRotation === '180' ? '0' : '180'}deg)`;
+                }
+            }
+        });
+
+        resultBtn.addEventListener('click', function() {
+            if (!cardsRevealed) {
+                // 카드 공개
+                slots.forEach(slot => {
+                    const img = slot.querySelector('img');
+                    if (img && img.dataset.realCard) {
+                        img.src = `/static/card_images/${img.dataset.realCard}`;
+                    }
+                    // 상하 변경 버튼 숨기기
+                    const rotateBtn = slot.querySelector('.rotate-btn');
+                    if (rotateBtn) {
+                        rotateBtn.style.display = 'none';
+                    }
+                });
+                
+                cardsRevealed = true;
+                resultBtn.textContent = '결과 확인하기';
+                resultBtn.style.backgroundColor = '#27ae60';
+            } else {
+                // 로딩 오버레이 표시
+                const loadingOverlay = document.getElementById('loadingOverlay');
+                loadingOverlay.style.display = 'flex';
+                
+                // 결과 페이지로 이동
+                const selectedCardsData = Array.from(slots).map((slot, index) => {
+                    const img = slot.querySelector('img');
+                    if (!img) return null;
+                    return {
+                        name: img.dataset.realCard,
+                        is_reversed: (img.style.transform.match(/rotate\((.*?)deg\)/) || ['', '0'])[1] === '180',
+                        position: index + 1  // 카드 순서 추가 (1, 2, 3)
+                    };
+                }).filter(card => card !== null);
+
+                const params = new URLSearchParams({
+                    question: '{{ question }}',
+                    cards: JSON.stringify(selectedCardsData)
+                });
+
+                // 약간의 지연 후 페이지 이동 (로딩 애니메이션이 보이도록)
+                setTimeout(() => {
+                    window.location.href = `/result?${params.toString()}`;
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html> 

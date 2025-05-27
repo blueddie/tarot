@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>타로 카드 리딩</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>타로 카드 리딩</h1>
+        
+        <!-- 질문 입력 -->
+        <div class="question-section">
+            <label for="question">당신의 질문을 입력하세요:</label>
+            <input type="text" id="question" placeholder="질문을 입력하세요...">
+        </div>
+
+        <!-- 카드 선택 영역 -->
+        <div class="card-selection">
+            <div class="card-slot" data-position="1">
+                <h3>과거</h3>
+            </div>
+            <div class="card-slot" data-position="2">
+                <h3>현재</h3>
+            </div>
+            <div class="card-slot" data-position="3">
+                <h3>미래</h3>
+            </div>
+        </div>
+
+        <!-- 결과 요청 버튼 -->
+        <button onclick="requestTarotReading()" class="reading-button">타로 카드 해석 요청</button>
+
+        <!-- 결과 표시 영역 -->
+        <div id="tarot-result" class="result-container"></div>
+    </div>
+
+    <!-- JavaScript 파일 연결 -->
+    <script src="/static/js/tarot.js"></script>
+</body>
+</html> 

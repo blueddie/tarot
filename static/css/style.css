@@ -1,0 +1,304 @@
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.main-image {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    margin: 2rem auto;
+    display: block;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.start-button {
+    background-color: #9b59b6;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 2rem;
+}
+
+.start-button:hover {
+    background-color: #8e44ad;
+    transform: scale(1.05);
+}
+
+h1 {
+    color: #9b59b6;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+/* 질문 입력 섹션 */
+.question-section {
+    margin-bottom: 2rem;
+}
+
+.question-section label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #9b59b6;
+    font-size: 1.2rem;
+}
+
+.question-section input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #9b59b6;
+    border-radius: 8px;
+    background-color: #2a2a2a;
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+/* 카드 선택 영역 */
+.card-selection {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem 0;
+    gap: 1.5rem;
+}
+
+.card-slot {
+    flex: 1;
+    min-height: 250px;
+    border: 2px solid #9b59b6;
+    border-radius: 15px;
+    padding: 1rem;
+    background-color: #2a2a2a;
+    transition: all 0.3s ease;
+}
+
+.card-slot:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(155, 89, 182, 0.3);
+}
+
+.card-slot h3 {
+    color: #9b59b6;
+    margin: 0 0 1rem 0;
+}
+
+/* 결과 요청 버튼 */
+.reading-button {
+    background-color: #9b59b6;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 2rem 0;
+}
+
+.reading-button:hover {
+    background-color: #8e44ad;
+    transform: scale(1.05);
+}
+
+/* 결과 컨테이너 */
+.result-container {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border: 2px solid #9b59b6;
+    border-radius: 15px;
+    background-color: #2a2a2a;
+}
+
+.result-section {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-bottom: 1px solid #9b59b6;
+    text-align: left;
+}
+
+.result-section:last-child {
+    border-bottom: none;
+}
+
+.result-section h3 {
+    color: #9b59b6;
+    margin: 0 0 0.5rem 0;
+}
+
+.result-section p {
+    margin: 0;
+    line-height: 1.6;
+    color: #ffffff;
+}
+
+/* 카드 선택 버튼 */
+.card-select-button, .direction-button {
+    background-color: #9b59b6;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+    cursor: pointer;
+    margin: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.card-select-button:hover, .direction-button:hover {
+    background-color: #8e44ad;
+    transform: scale(1.05);
+}
+
+/* 선택된 카드 표시 */
+.selected-card {
+    font-size: 1.2rem;
+    margin: 1rem 0;
+    padding: 1rem;
+    border: 2px solid #9b59b6;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.selected-card.reversed {
+    transform: rotate(180deg);
+}
+
+/* 카드 선택 모달 */
+.card-selection-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #2a2a2a;
+    padding: 2rem;
+    border-radius: 15px;
+    max-width: 80%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    border: 2px solid #9b59b6;
+}
+
+.modal-content button {
+    background-color: #2a2a2a;
+    color: white;
+    border: 1px solid #9b59b6;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal-content button:hover {
+    background-color: #9b59b6;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #9b59b6;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    color: #8e44ad;
+}
+
+/* 로딩 표시 */
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #9b59b6;
+    font-size: 1.2rem;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+/* 에러 메시지 */
+.error {
+    text-align: center;
+    padding: 1rem;
+    color: #e74c3c;
+    border: 2px solid #e74c3c;
+    border-radius: 10px;
+    background-color: rgba(231, 76, 60, 0.1);
+    margin: 1rem 0;
+}
+
+/* 모바일 반응형 스타일 */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .main-image {
+        max-width: 100%;
+        width: 90%;
+        margin: 1.5rem auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .start-button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1.1rem;
+    }
+}
+
+/* 작은 모바일 화면 (480px 이하) */
+@media (max-width: 480px) {
+    .container {
+        padding: 0.5rem;
+    }
+    
+    .main-image {
+        width: 95%;
+        max-width: 95%;
+        margin: 1rem auto;
+        padding: 0;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+        margin: 1rem 0;
+    }
+} 
