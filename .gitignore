@@ -173,6 +173,5 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-image/
 static/card_images/
 tarot_env/
